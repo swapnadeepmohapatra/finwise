@@ -1,0 +1,6 @@
+{
+  "crons": [
+    { "path": "/api/cron/refresh-navs", "schedule": "30 2 * * *" },
+    { "path": "/api/cron/weekly-digest", "schedule": "30 3 * * *" }
+  ]
+}
