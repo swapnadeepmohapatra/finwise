@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Plus } from "lucide-react";
 import { and, asc, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import { accounts, creditCardBills, type CreditCardBill } from "@/lib/db/schema";
 import { formatPaise } from "@/lib/utils/money";
 import { daysUntil, formatDate } from "@/lib/utils/dates";
+import { AccountDialog } from "@/components/features/accounts/account-dialog";
 import { BillDialog } from "@/components/features/credit-cards/bill-dialog";
 import { BillMenu } from "@/components/features/credit-cards/bill-menu";
 import { PayDialog } from "@/components/features/credit-cards/pay-dialog";
@@ -84,18 +84,28 @@ export default async function CreditCardsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-semibold tracking-tight">Credit cards</h1>
-        {cards.length > 0 ? (
-          <BillDialog
-            cards={cardOptions}
+        <div className="flex items-center gap-2">
+          <AccountDialog
+            defaultType="credit_card"
             trigger={
-              <Button size="sm">
-                <Plus className="h-4 w-4" /> Add bill
+              <Button size="sm" variant="outline">
+                <Plus className="h-4 w-4" /> Add card
               </Button>
             }
           />
-        ) : null}
+          {cards.length > 0 ? (
+            <BillDialog
+              cards={cardOptions}
+              trigger={
+                <Button size="sm">
+                  <Plus className="h-4 w-4" /> Add bill
+                </Button>
+              }
+            />
+          ) : null}
+        </div>
       </div>
 
       {cards.length === 0 ? (
@@ -105,9 +115,14 @@ export default async function CreditCardsPage() {
               No credit cards yet. Add a credit card account to start tracking
               bills.
             </p>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/accounts">Add a credit card</Link>
-            </Button>
+            <AccountDialog
+              defaultType="credit_card"
+              trigger={
+                <Button variant="outline" size="sm">
+                  Add a credit card
+                </Button>
+              }
+            />
           </CardContent>
         </Card>
       ) : null}

@@ -26,12 +26,14 @@ const ACCOUNT_TYPES = [
 
 export function AccountFormInner({
   account,
+  defaultType,
   onDone,
 }: {
   account?: Account;
+  defaultType?: Account["type"];
   onDone: () => void;
 }) {
-  const [type, setType] = useState<string>(account?.type ?? "bank");
+  const [type, setType] = useState<string>(account?.type ?? defaultType ?? "bank");
   const { state, formAction, pending } = useActionForm(
     account ? updateAccount : createAccount,
     {

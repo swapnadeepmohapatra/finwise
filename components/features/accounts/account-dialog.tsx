@@ -11,11 +11,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+const ADD_TITLES: Partial<Record<Account["type"], string>> = {
+  bank: "Add bank account",
+  credit_card: "Add credit card",
+};
+
 export function AccountDialog({
   account,
+  defaultType,
   trigger,
 }: {
   account?: Account;
+  defaultType?: Account["type"];
   trigger: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -25,9 +32,17 @@ export function AccountDialog({
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{account ? "Edit account" : "Add account"}</DialogTitle>
+          <DialogTitle>
+            {account
+              ? "Edit account"
+              : ((defaultType && ADD_TITLES[defaultType]) ?? "Add account")}
+          </DialogTitle>
         </DialogHeader>
-        <AccountFormInner account={account} onDone={() => setOpen(false)} />
+        <AccountFormInner
+          account={account}
+          defaultType={defaultType}
+          onDone={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );

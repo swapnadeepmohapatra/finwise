@@ -27,15 +27,26 @@ export default async function AccountsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-semibold tracking-tight">Accounts</h1>
-        <AccountDialog
-          trigger={
-            <Button size="sm">
-              <Plus className="h-4 w-4" /> Add account
-            </Button>
-          }
-        />
+        <div className="flex items-center gap-2">
+          <AccountDialog
+            defaultType="credit_card"
+            trigger={
+              <Button size="sm" variant="outline">
+                <Plus className="h-4 w-4" /> Add credit card
+              </Button>
+            }
+          />
+          <AccountDialog
+            defaultType="bank"
+            trigger={
+              <Button size="sm">
+                <Plus className="h-4 w-4" /> Add bank account
+              </Button>
+            }
+          />
+        </div>
       </div>
 
       {rows.length === 0 ? (

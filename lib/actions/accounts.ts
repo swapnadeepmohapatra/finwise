@@ -82,6 +82,7 @@ export async function createAccount(
   }
 
   revalidatePath("/accounts");
+  revalidatePath("/credit-cards");
   revalidatePath("/");
   return { success: true };
 }
@@ -115,6 +116,7 @@ export async function updateAccount(
     .where(eq(accounts.id, id));
 
   revalidatePath("/accounts");
+  revalidatePath("/credit-cards");
   return { success: true };
 }
 
@@ -156,12 +158,14 @@ export async function setAccountActive(id: string, isActive: boolean) {
     .set({ isActive, updatedAt: new Date() })
     .where(eq(accounts.id, id));
   revalidatePath("/accounts");
+  revalidatePath("/credit-cards");
 }
 
 export async function deleteAccount(id: string) {
   await requireSession();
   await getDb().delete(accounts).where(eq(accounts.id, id));
   revalidatePath("/accounts");
+  revalidatePath("/credit-cards");
   revalidatePath("/transactions");
   revalidatePath("/");
 }
